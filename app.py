@@ -45,7 +45,6 @@ def index():
       return render_template('task.html',tasks=tasks)
 
 
-# Delete an Item
 @app.route("/delete/<int:id>")
 def delete(id:int):
     delete_task = Mytask.query.get_or_404(id)
@@ -55,22 +54,20 @@ def delete(id:int):
       return redirect('/')
     except Exception as e:
       return f"Error:{e}"
-    
-    
-# Update/ Edit an Item
-@app.route("/edit/<int:id>",methods=["GET","POST"])
-def edit(id:int):
-  task = Mytask.query.get_or_404(id)
-  if request.method == 'POST':
-    task.content = request.form['content']
-    try:
-      db.session.commit()
-      return redirect('/')
-    except Exception as e:
-      return f"Error:{e}"
   
-  else:
-    return render_template('edit.html',task=task)
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id:int):
+    task = Mytask.query.get_or_404(id)
+    if request.method == 'POST':
+        task.content = request.form['content']
+        try:
+            db.session.commit()
+            return redirect('/')
+        except Exception as e:
+            return f"Error:{e}"
+    else:
+        return render_template('edit.html', task=task)
+
       
 
 
